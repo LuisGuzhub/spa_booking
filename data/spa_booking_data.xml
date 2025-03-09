@@ -1,0 +1,110 @@
+<odoo>
+    <!-- Default User Image-->
+    <record id="default_user_image" model="ir.attachment">
+        <field name="name">Default User Image</field>
+        <field name="type">binary</field>
+        <field name="datas"/>
+        <field name="mimetype">image/png</field>
+    </record>
+
+    <!-- Define Categories -->
+    <record id="category_facials" model="spa.category">
+        <field name="name">Facials</field>
+        <field name="description">Services related to facial treatments.</field>
+    </record>
+
+    <record id="category_hydrating" model="spa.category">
+        <field name="name">Hydrating Treatments</field>
+        <field name="description">Deep hydration services.</field>
+    </record>
+
+    <record id="category_depigmenting" model="spa.category">
+        <field name="name">Depigmenting Treatment</field>
+        <field name="description">services to reduce skin blemishes.</field>
+    </record>
+
+
+    <!-- Services in "Facials" Category" -->
+    <record id="service_led" model="spa.service">
+        <field name="name">LED Therapy</field>
+        <field name="category_id" ref="category_facials"/>
+        <field name="price">30</field>
+    </record>
+
+    <record id="service_hydration" model="spa.service">
+        <field name="name">Deep Hydration</field>
+        <field name="category_id" ref="category_facials"/>
+        <field name="price">50</field>
+    </record>
+
+    <record id="service_express" model="spa.service">
+        <field name="name">Express Facial</field>
+        <field name="category_id" ref="category_facials"/>
+        <field name="price">25</field>
+    </record>
+
+    <record id="service_basic" model="spa.service">
+        <field name="name">Basic Facial</field>
+        <field name="category_id" ref="category_facials"/>
+        <field name="price">20</field>
+    </record>
+
+
+    <!-- Services in "Depigmenting Treatments" Category -->
+    <record id="service_eye_contour" model="spa.service">
+        <field name="name">Eye Contour</field>
+        <field name="category_id" ref="category_hydrating"/>
+        <field name="price">25</field>
+    </record>
+
+    <record id="service_plasma" model="spa.service">
+        <field name="name">Platelet-Rich Plasma + Vitamins</field>
+        <field name="category_id" ref="category_hydrating"/>
+        <field name="price">50</field>
+    </record>
+
+    <record id="service_mesotherapy" model="spa.service">
+        <field name="name">Mesotherapy + Regenerating Peeling</field>
+        <field name="category_id" ref="category_hydrating"/>
+        <field name="price">70</field>
+    </record>
+
+    <record id="service_skinbooster" model="spa.service">
+        <field name="name">SkinBooster A.H. + PRP</field>
+        <field name="category_id" ref="category_hydrating"/>
+        <field name="price">285</field>
+    </record>
+
+
+    <!-- Services in "Depigmenting Treatments" Category -->
+    <record id="service_acid_cocktail" model="spa.service">
+        <field name="name">Depigmenting Acid Cocktail</field>
+        <field name="category_id" ref="category_depigmenting"/>
+        <field name="price">40</field>
+    </record>
+
+    <record id="service_mesotherapy_depigmenting" model="spa.service">
+        <field name="name">Depigmenting Mesotherapy</field>
+        <field name="category_id" ref="category_depigmenting"/>
+        <field name="price">50</field>
+    </record>
+
+    <record id="service_laser_opt" model="spa.service">
+        <field name="name">Laser OPT</field>
+        <field name="category_id" ref="category_depigmenting"/>
+        <field name="price">50</field>
+    </record>
+
+    <record id="service_peeling" model="spa.service">
+        <field name="name">Peeling Pqage</field>
+        <field name="category_id" ref="category_depigmenting"/>
+        <field name="price">80</field>
+    </record>
+
+    <record id="service_peeling_depigmenting" model="spa.service">
+        <field name="name">Depigmenting Peeling</field>
+        <field name="category_id" ref="category_depigmenting"/>
+        <field name="price">650</field>
+    </record>
+
+</odoo>

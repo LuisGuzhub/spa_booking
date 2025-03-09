@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_spa_booking_user,spa.booking user,model_spa_booking,,1,1,1,1
+access_spa_service_user,spa.service user,model_spa_service,,1,1,1,1
+access_spa_detail_user,spa.detail_user,model_spa_detail,,1,1,1,1
+access_spa_category_user,spa.category user,model_spa_category,,1,1,1,1
+

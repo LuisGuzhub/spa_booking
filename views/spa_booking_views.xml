@@ -1,0 +1,175 @@
+<odoo>
+    <!-- Vista de Kanban para Reservas -->
+    <record id="view_spa_booking_kanban" model="ir.ui.view">
+        <field name="name">spa.booking.kanban</field>   <!-- Nombre de la vista -->
+        <field name="model">spa.booking</field>     <!-- Modelo asociado a la vista -->
+        <field name="arch" type="xml">
+            <kanban default_group_by="status">      <!-- Agrupa automáticamente por estado -->
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="appointment_date"/>
+                <field name="status"/>
+                <field name="custom_type"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <!--
+                            Estructura de la tarjeta en la vista Kanban para representar cada reserva.
+                            Contiene la imagen del cliente y detalles como nombre, teléfono, fecha de cita, estado y tipo de cliente.
+                        -->
+                        <div class="oe_kanban_card oe_kanban_global_click"
+                             t-att-data-id="record.id"
+                             style="padding: 15px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
+                            <!-- Asigna el ID del registro a la tarjeta para que sea interactiva -->
+
+                            <div class="col-4">
+
+                                <!-- Sección de la imagen -->
+                                <aside class="o_kanban_aside_full">
+                                    <div class="o_kanban_image_fill position-relative w-100">
+                                        <field name="image" widget="image" class="h-100"
+                                               options="{'img_class': 'object-fit-cover'}"/>
+                                        <!-- Muestra la imagen del cliente en la tarjeta, asegurando que se ajuste correctamente -->
+                                    </div>
+                                </aside>
+                            </div>
+                            <!-- Sección de detalles -->
+                            <!-- t-esc="record.campo.value" para mostrar los valores dinámicamente desde el modelo. -->
+                            <div class="oe_kanban_details">
+                                <p style="font-size: 16px; font-weight: bold; color: #333; margin-bottom: 10px;">
+                                    <strong>
+                                        <t t-esc="record.name.value"/>
+                                    </strong>
+                                </p>
+                                <p>
+                                    <strong style="color: #666;">📞 Phone:</strong>
+                                    <strong>
+                                        <t t-esc="record.phone.value"/>
+                                    </strong>
+                                </p>
+                                <p>
+                                    <strong style="color: #666;">🗓️ Appointment Date:</strong>
+                                    <strong>
+                                        <t t-esc="record.appointment_date.value"/>
+                                    </strong>
+                                </p>
+                                <p>
+                                    <strong style="color: #666;">📌 Status:</strong>
+                                    <strong>
+                                        <t t-esc="record.status.value"/>
+                                    </strong>
+                                </p>
+                                <p>
+                                    <strong style="color: #666;">⭐ Custom Type:</strong>
+                                    <strong>
+                                        <t t-esc="record.custom_type.value"/>
+                                    </strong>
+                                </p>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vista de calendar para Reservas -->
+    <record id="view_spa_booking_calendar" model="ir.ui.view">
+        <field name="name">spa.booking.calendar</field>
+        <field name="model">spa.booking</field>
+        <field name="arch" type="xml">
+            <calendar date_start="appointment_date" color="status">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="custom_type"/>
+            </calendar>
+        </field>
+    </record>
+
+
+    <!-- Vista de tree para Reservas -->
+    <record id="view_spa_booking_tree" model="ir.ui.view">
+        <field name="name">spa.booking.tree</field>
+        <field name="model">spa.booking</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="appointment_date"/>
+                <field name="status"/>
+                <field name="detail_ids"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de form para reservas -->
+    <record id="view_spa_booking_form" model="ir.ui.view">
+        <field name="name">spa.booking.form</field>
+        <field name="model">spa.booking</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <!--INFORMATION PRINCIPAL -->
+                    <!-- El ATTRIBUTE col="#" It has a number of columns -->
+                    <group col="2">
+                        <group>
+                            <field name="name"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="address"/>
+                        </group>
+                        <group>
+                            <field name="appointment_date"/>
+                            <field name="status"/>
+                            <field name="custom_type"/>
+                        </group>
+                        <group>
+                            <!-- permite subir una imagen del cliente. -->
+                            <field name="image" widget="image"
+                                   options="{'size': [100, 100], 'img_class': 'object-fit-cover'}"/>
+                        </group>
+
+                        <!-- Button para Generate Invoice -->
+                        <group>
+                            <field name="invoice_id" invisible="1"/>
+                            <button name="action_generate_invoice" type="object" string="Generate Invoice"
+                                    class="oe_highlight" modifiers="{'invisible': [['invoice_id', '!=', False]]}"/>
+                            <button name="action_view_invoice" type="object" string="View Invoice"
+                                    modifiers="{'invisible': [['show_invoice', '=', False]]}"/>
+                        </group>
+
+                    </group>
+
+                    <!-- SERVICE OPTIONS -->
+                    <group>
+                        <field name="service_option"/>
+                        <!-- TABLA -->
+                    </group>
+                    <notebook>
+                        <page string="Booking Details">
+                            <field name="detail_ids">    <!-- Campo One2many que contiene los detalles de la reserva -->
+                                <tree editable="bottom">    <!-- Muestra los detalles en una vista de tabla editable -->
+                                    <!-- Campo para seleccionar el servicio dentro de los detalles -->
+                                    <field name="service_id"
+                                           domain="[('category_id', '=', parent.service_option)]"/>     <!-- Restringe la selección de servicios en service_id para que solo se muestren los servicios de la categoría que el usuario eligió en la reserva. -->
+                                     <!-- Campo que muestra el precio del servicio seleccionado -->
+                                    <field name="price"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action para open la vista de reservas -->
+    <record id="action_spa_booking" model="ir.actions.act_window">
+        <field name="name">SPA Bookings</field>
+        <field name="res_model">spa.booking</field>
+        <field name="view_mode">kanban,calendar,tree,form</field>
+    </record>
+
+    <!-- Odoo Menu -->
+    <menuitem id="spa_booking_menu" name="SPA Bookings" action="action_spa_booking"/>
+
+</odoo>
